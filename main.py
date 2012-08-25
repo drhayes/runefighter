@@ -9,6 +9,7 @@ HEIGHT = 480
 
 
 background_image = None
+ship_image = None
 
 
 def load_image(filename):
@@ -29,17 +30,20 @@ window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
 def on_draw():
   window.clear()
   background_image.blit(WIDTH / 2, HEIGHT / 2)
+  ship_image.blit(50, 50)
 
 
 # Kicks everything off.
 def main():
   global background_image
+  global ship_image
   # Set the resource load path.
   pyglet.resource.path = ['res/images']
   pyglet.resource.reindex()
 
   # Load images.
   background_image = load_image('stars.png')
+  ship_image = load_image('ship.png')
 
   pyglet.app.run()
 
