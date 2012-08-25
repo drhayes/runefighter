@@ -36,12 +36,15 @@ def main():
   pyglet.resource.add_font('m48.ttf')
   main_font = pyglet.font.load('M48_RETROFUTURE', 32)
 
+  # Load sprites.
+  ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
+
   # The main update loop.
   @window.event
   def on_draw():
     window.clear()
     background_image.blit(WIDTH / 2, HEIGHT / 2)
-    ship_image.blit(50, 50)
+    ship.draw()
 
   pyglet.app.run()
 
