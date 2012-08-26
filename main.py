@@ -4,6 +4,10 @@ import pyglet
 from pyglet.gl import *
 
 
+import process
+import states
+
+
 WIDTH = 640
 HEIGHT = 480
 
@@ -16,20 +20,19 @@ def load_image(filename):
   return image
 
 
-# Initialize window globally so we can use the short form
-# of event handler signup.
-window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
-window.set_caption('Runefighter')
-
-
 # Kicks everything off.
 def main():
+  # The window where all the drawing takes place.
+  window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
+  window.set_caption('Runefighter')
+
   # Set the resource load path.
   pyglet.resource.path = ['res/images', 'res/fonts']
   pyglet.resource.reindex()
 
   # Load images.
   background_image = load_image('stars.png')
+  background_image.anchor_x = background_image.anchor_y = 0
   ship_image = load_image('ship.png')
 
   # Load fonts.
@@ -39,12 +42,17 @@ def main():
   # Load sprites.
   ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
 
-  # The main update loop.
-  @window.event
-  def on_draw():
-    window.clear()
-    background_image.blit(WIDTH / 2, HEIGHT / 2)
-    ship.draw()
+  # Processes.
+  starfield = process.Starfield(background_image, HEIGHT)
+  starfield.start()
+
+  # Start state machine.
+  shooting_at_things = states.ShootingAtThings(ship)
+  game_states = [shooting_at_things]
+  state_manager = states.StateManager(window, game_states, starfield)
+  state_manager.current_state = game_states[0]
+  # Make the StateManager instance responsible for drawing things.
+  window.push_handlers(state_manager)
 
   pyglet.app.run()
 
