@@ -1,4 +1,7 @@
-# A shoot-em-up game in pyglet, to learn the library.
+# Copyright (c) 2012 David Hayes
+
+"""Main file for my shoot-em-up game using pyglet."""
+
 
 import pyglet
 from pyglet.gl import *

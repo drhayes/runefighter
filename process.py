@@ -1,4 +1,7 @@
+# Copyright (c) 2012 David Hayes
+
 """Time updateable processes."""
+
 
 import math
 from pyglet import clock

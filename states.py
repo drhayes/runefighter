@@ -1,3 +1,5 @@
+# Copyright (c) 2012 David Hayes
+
 """All the game states, including main menu and shooting at things."""
 
 
