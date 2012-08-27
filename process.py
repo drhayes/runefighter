@@ -17,7 +17,7 @@ STARFIELD_RATE = 40
 
 class Process(object):
   """Encapsulates a method called every so often in an update loop."""
-  def __init__(self, frequency=0.03):
+  def __init__(self, frequency=0.01):
     self.frequency = frequency
 
   def start(self):
