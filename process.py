@@ -8,6 +8,10 @@ from pyglet import clock
 
 
 # pixels / second
+TITLE_RATE = 20
+START_TITLE_Y = 180
+END_TITLE_Y = 300
+# pixels / second
 STARFIELD_RATE = 40
 
 
@@ -24,6 +28,21 @@ class Process(object):
 
   def update(self, dt):
     pass
+
+
+class TitleGraphic(Process):
+  """A title that slides into place."""
+  def __init__(self, title_image):
+    super(TitleGraphic, self).__init__()
+    self.title_image = title_image
+    self.y = START_TITLE_Y
+
+  def update(self, dt):
+    if self.y < END_TITLE_Y:
+      self.y += int(math.ceil(TITLE_RATE * dt))
+
+  def draw(self):
+    self.title_image.blit(320, self.y)
 
 
 class Starfield(Process):

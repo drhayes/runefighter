@@ -19,6 +19,15 @@ class StateManager(object):
       self.current_state.draw()
 
 
+class TitleScreen(object):
+  """Show the title screen until player presses spacebar."""
+  def __init__(self, title):
+    self.title = title
+
+  def draw(self):
+    self.title.draw()
+
+
 class ShootingAtThings(object):
   """State of player controlling ship and shooting things."""
   def __init__(self, ship):

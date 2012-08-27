@@ -34,8 +34,9 @@ def main():
   pyglet.resource.reindex()
 
   # Load images.
-  background_image = load_image('stars.png')
-  background_image.anchor_x = background_image.anchor_y = 0
+  title_image = load_image('title.png')
+  starfield_image = load_image('stars.png')
+  starfield_image.anchor_x = starfield_image.anchor_y = 0
   ship_image = load_image('ship.png')
 
   # Load fonts.
@@ -46,12 +47,15 @@ def main():
   ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
 
   # Processes.
-  starfield = process.Starfield(background_image, HEIGHT)
+  title = process.TitleGraphic(title_image)
+  title.start()
+  starfield = process.Starfield(starfield_image, HEIGHT)
   starfield.start()
 
   # Start state machine.
+  title_screen = states.TitleScreen(title)
   shooting_at_things = states.ShootingAtThings(ship)
-  game_states = [shooting_at_things]
+  game_states = [title_screen, shooting_at_things]
   state_manager = states.StateManager(window, game_states, starfield)
   state_manager.current_state = game_states[0]
   # Make the StateManager instance responsible for drawing things.
