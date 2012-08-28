@@ -57,6 +57,7 @@ def main():
   title_screen = states.TitleScreen(title, transition_to_shooting)
 
   state_manager.current_state = title_screen
+
   # Make the StateManager instance responsible for drawing things.
   window.push_handlers(state_manager)
 
