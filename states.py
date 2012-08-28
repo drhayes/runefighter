@@ -75,10 +75,18 @@ class TitleScreen(State):
       return True
 
 
-class GetReady(State):
+class PlayerStatState(State):
+  """State where player stats are displayed."""
+  def __init__(self, player, ship):
+    super(PlayerStatState, self).__init__()
+    self.player = player
+    self.ship = ship
+
+
+class GetReady(PlayerStatState):
   """Show the text get ready and transition in a few seconds."""
-  def __init__(self, get_ready, transition):
-    super(GetReady, self).__init__()
+  def __init__(self, player, ship, get_ready, transition):
+    super(GetReady, self).__init__(player, ship)
     self.get_ready = get_ready
     self.transition = transition
 
@@ -91,11 +99,10 @@ class GetReady(State):
       self.transition()
 
 
-class ShootingAtThings(State):
+class ShootingAtThings(PlayerStatState):
   """State of player controlling ship and shooting things."""
-  def __init__(self, ship):
-    super(ShootingAtThings, self).__init__()
-    self.ship = ship
+  def __init__(self, player, ship):
+    super(ShootingAtThings, self).__init__(player, ship)
 
   def on_draw(self):
     self.ship.draw()

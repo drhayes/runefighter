@@ -11,6 +11,13 @@ import process
 import states
 
 
+class Player(object):
+  """The one and only player."""
+  def __init__(self, lives=3, score=0):
+    self.lives = lives
+    self.score = score
+
+
 def load_image(filename):
   image_file = pyglet.resource.file(filename)
   image = pyglet.image.load(filename, file=image_file)
@@ -27,6 +34,9 @@ def create_label(text, x=constants.SCREEN_WIDTH / 2,
 
 # Kicks everything off.
 def main():
+  # Instantiate the player.
+  player = Player()
+
   # The window where all the drawing takes place.
   window = pyglet.window.Window(width=constants.SCREEN_WIDTH,
     height=constants.SCREEN_HEIGHT)
@@ -63,9 +73,9 @@ def main():
   # State manager and states.
   state_manager = states.StateManager(window, starfield)
 
-  shooting_at_things = states.ShootingAtThings(ship)
+  shooting_at_things = states.ShootingAtThings(player, ship)
   transition_to_shooting = state_manager.create_transition(shooting_at_things)
-  get_ready = states.GetReady(get_ready, transition_to_shooting)
+  get_ready = states.GetReady(player, ship, get_ready, transition_to_shooting)
   transition_to_ready = state_manager.create_transition(get_ready)
   title_screen = states.TitleScreen(title, press_space, transition_to_ready)
   transition_to_title_screen = state_manager.create_transition(title_screen)
