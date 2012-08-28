@@ -57,7 +57,7 @@ def main():
   main_font = pyglet.font.load(constants.FONT_NAME, 32)
 
   # Load sprites.
-  ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
+  ship = pyglet.sprite.Sprite(ship_image, x=50, y=70)
 
   # Get some text.
   press_space = create_label(
@@ -73,9 +73,9 @@ def main():
   # State manager and states.
   state_manager = states.StateManager(window, starfield)
 
-  shooting_at_things = states.ShootingAtThings(player, ship)
+  shooting_at_things = states.ShootingAtThings(player, ship_image, ship)
   transition_to_shooting = state_manager.create_transition(shooting_at_things)
-  get_ready = states.GetReady(player, ship, get_ready, transition_to_shooting)
+  get_ready = states.GetReady(player, ship_image, get_ready, transition_to_shooting)
   transition_to_ready = state_manager.create_transition(get_ready)
   title_screen = states.TitleScreen(title, press_space, transition_to_ready)
   transition_to_title_screen = state_manager.create_transition(title_screen)

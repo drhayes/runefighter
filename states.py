@@ -77,16 +77,23 @@ class TitleScreen(State):
 
 class PlayerStatState(State):
   """State where player stats are displayed."""
-  def __init__(self, player, ship):
+  def __init__(self, player, ship_image):
     super(PlayerStatState, self).__init__()
     self.player = player
-    self.ship = ship
+    self.ship_image = ship_image
+
+  def on_draw(self):
+    # Draw the number of lives at the bottom.
+    for i in xrange(0, self.player.lives):
+      x = (constants.LIVES_IMAGE_WIDTH + 10) + (i * (constants.LIVES_IMAGE_WIDTH + 8))
+      self.ship_image.blit(
+        x, 20, width=constants.LIVES_IMAGE_WIDTH, height=constants.LIVES_IMAGE_HEIGHT)
 
 
 class GetReady(PlayerStatState):
   """Show the text get ready and transition in a few seconds."""
-  def __init__(self, player, ship, get_ready, transition):
-    super(GetReady, self).__init__(player, ship)
+  def __init__(self, player, ship_image, get_ready, transition):
+    super(GetReady, self).__init__(player, ship_image)
     self.get_ready = get_ready
     self.transition = transition
 
@@ -94,6 +101,7 @@ class GetReady(PlayerStatState):
     self.start = datetime.now()
 
   def on_draw(self):
+    super(GetReady, self).on_draw()
     self.get_ready.draw()
     if datetime.now() - self.start > constants.READY_TIME_DELTA:
       self.transition()
@@ -101,8 +109,10 @@ class GetReady(PlayerStatState):
 
 class ShootingAtThings(PlayerStatState):
   """State of player controlling ship and shooting things."""
-  def __init__(self, player, ship):
-    super(ShootingAtThings, self).__init__(player, ship)
+  def __init__(self, player, ship_image, ship):
+    super(ShootingAtThings, self).__init__(player, ship_image)
+    self.ship = ship
 
   def on_draw(self):
+    super(ShootingAtThings, self).on_draw()
     self.ship.draw()
