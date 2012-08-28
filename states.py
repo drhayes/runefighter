@@ -42,13 +42,15 @@ class State(object):
 
 class TitleScreen(State):
   """Show the title screen until player presses spacebar."""
-  def __init__(self, title, transition):
+  def __init__(self, title, press_space, transition):
     super(TitleScreen, self).__init__()
     self.title = title
+    self.press_space = press_space
     self.transition = transition
 
   def draw(self):
     self.title.draw()
+    self.press_space.draw()
 
   def on_key_press(self, symbol, modifiers):
     if symbol == key.SPACE:

@@ -19,6 +19,11 @@ def load_image(filename):
   return image
 
 
+def create_label(text, x=0, y=0):
+  return pyglet.text.Label(text, font_name=constants.FONT_NAME,
+    anchor_x='center', x=x, y=y)
+
+
 # Kicks everything off.
 def main():
   # The window where all the drawing takes place.
@@ -43,6 +48,10 @@ def main():
   # Load sprites.
   ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
 
+  # Get some text.
+  press_space = create_label(
+    'Press Space To Continue', x=constants.SCREEN_WIDTH / 2, y=120)
+
   # Processes.
   title = process.TitleGraphic(title_image)
   title.start()
@@ -54,7 +63,7 @@ def main():
 
   shooting_at_things = states.ShootingAtThings(ship)
   transition_to_shooting = state_manager.create_transition(shooting_at_things)
-  title_screen = states.TitleScreen(title, transition_to_shooting)
+  title_screen = states.TitleScreen(title, press_space, transition_to_shooting)
 
   state_manager.current_state = title_screen
 
