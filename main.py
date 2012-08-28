@@ -19,7 +19,8 @@ def load_image(filename):
   return image
 
 
-def create_label(text, x=0, y=0):
+def create_label(text, x=constants.SCREEN_WIDTH / 2,
+    y=constants.SCREEN_HEIGHT / 2):
   return pyglet.text.Label(text, font_name=constants.FONT_NAME,
     anchor_x='center', x=x, y=y)
 
@@ -51,6 +52,7 @@ def main():
   # Get some text.
   press_space = create_label(
     'Press Space To Continue', x=constants.SCREEN_WIDTH / 2, y=120)
+  get_ready = create_label('Get Ready')
 
   # Processes.
   title = process.TitleGraphic(title_image)
@@ -63,9 +65,12 @@ def main():
 
   shooting_at_things = states.ShootingAtThings(ship)
   transition_to_shooting = state_manager.create_transition(shooting_at_things)
-  title_screen = states.TitleScreen(title, press_space, transition_to_shooting)
+  get_ready = states.GetReady(get_ready, transition_to_shooting)
+  transition_to_ready = state_manager.create_transition(get_ready)
+  title_screen = states.TitleScreen(title, press_space, transition_to_ready)
+  transition_to_title_screen = state_manager.create_transition(title_screen)
 
-  state_manager.current_state = title_screen
+  transition_to_title_screen()
 
   # Make the StateManager instance responsible for drawing things.
   window.push_handlers(state_manager)

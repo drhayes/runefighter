@@ -2,7 +2,11 @@
 
 """All the game states, including main menu and shooting at things."""
 
+from datetime import datetime
 from pyglet.window import key
+
+
+import constants
 
 
 class StateManager(object):
@@ -17,7 +21,7 @@ class StateManager(object):
     self.starfield.draw()
 
     if self.current_state:
-      return self.current_state.draw()
+      return self.current_state.on_draw()
     return False
 
   def on_key_press(self, symbol, modifiers):
@@ -27,17 +31,30 @@ class StateManager(object):
 
   def create_transition(self, new_state):
     def transition():
+      if self.current_state:
+        self.current_state.deactivate()
       self.current_state = new_state
+      self.current_state.activate()
     return transition
 
 
 class State(object):
   """Game state that handles drawing, key presses, etc."""
+  def activate(self):
+    """Called when state is transitioned to."""
+    pass
+
+  def deactivate(self):
+    """Called when state is transitioned out of."""
+    pass
+
   def on_draw(self):
-        pass
+    """Called to draw on the screen when this state is activated."""
+    pass
 
   def on_key_press(self, symbol, modifiers):
-        pass
+    """Called when a key is pressed when this state is activated."""
+    pass
 
 
 class TitleScreen(State):
@@ -48,7 +65,7 @@ class TitleScreen(State):
     self.press_space = press_space
     self.transition = transition
 
-  def draw(self):
+  def on_draw(self):
     self.title.draw()
     self.press_space.draw()
 
@@ -58,11 +75,27 @@ class TitleScreen(State):
       return True
 
 
+class GetReady(State):
+  """Show the text get ready and transition in a few seconds."""
+  def __init__(self, get_ready, transition):
+    super(GetReady, self).__init__()
+    self.get_ready = get_ready
+    self.transition = transition
+
+  def activate(self):
+    self.start = datetime.now()
+
+  def on_draw(self):
+    self.get_ready.draw()
+    if datetime.now() - self.start > constants.READY_TIME_DELTA:
+      self.transition()
+
+
 class ShootingAtThings(State):
   """State of player controlling ship and shooting things."""
   def __init__(self, ship):
     super(ShootingAtThings, self).__init__()
     self.ship = ship
 
-  def draw(self):
+  def on_draw(self):
     self.ship.draw()
