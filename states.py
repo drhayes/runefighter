@@ -2,14 +2,13 @@
 
 """All the game states, including main menu and shooting at things."""
 
-import pyglet
+from pyglet.window import key
 
 
 class StateManager(object):
   """Tracks current state and updates periodically."""
-  def __init__(self, window, states, starfield):
+  def __init__(self, window, starfield):
     self.window = window
-    self.states = states
     self.starfield = starfield
     self.current_state = None
 
@@ -18,11 +17,18 @@ class StateManager(object):
     self.starfield.draw()
 
     if self.current_state:
-      self.current_state.draw()
+      return self.current_state.draw()
+    return False
 
   def on_key_press(self, symbol, modifiers):
     if self.current_state:
-      self.current_state.on_key_press(symbol, modifiers)
+      return self.current_state.on_key_press(symbol, modifiers)
+    return False
+
+  def create_transition(self, new_state):
+    def transition():
+      self.current_state = new_state
+    return transition
 
 
 class State(object):
@@ -36,16 +42,24 @@ class State(object):
 
 class TitleScreen(State):
   """Show the title screen until player presses spacebar."""
-  def __init__(self, title):
+  def __init__(self, title, transition):
+    super(TitleScreen, self).__init__()
     self.title = title
+    self.transition = transition
 
   def draw(self):
     self.title.draw()
+
+  def on_key_press(self, symbol, modifiers):
+    if symbol == key.SPACE:
+      self.transition()
+      return True
 
 
 class ShootingAtThings(State):
   """State of player controlling ship and shooting things."""
   def __init__(self, ship):
+    super(ShootingAtThings, self).__init__()
     self.ship = ship
 
   def draw(self):

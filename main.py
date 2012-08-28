@@ -2,7 +2,6 @@
 
 """Main file for my shoot-em-up game using pyglet."""
 
-
 import pyglet
 from pyglet.gl import *
 
@@ -50,12 +49,14 @@ def main():
   starfield = process.Starfield(starfield_image)
   starfield.start()
 
-  # Start state machine.
-  title_screen = states.TitleScreen(title)
+  # State manager and states.
+  state_manager = states.StateManager(window, starfield)
+
   shooting_at_things = states.ShootingAtThings(ship)
-  game_states = [title_screen, shooting_at_things]
-  state_manager = states.StateManager(window, game_states, starfield)
-  state_manager.current_state = game_states[0]
+  transition_to_shooting = state_manager.create_transition(shooting_at_things)
+  title_screen = states.TitleScreen(title, transition_to_shooting)
+
+  state_manager.current_state = title_screen
   # Make the StateManager instance responsible for drawing things.
   window.push_handlers(state_manager)
 

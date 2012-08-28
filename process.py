@@ -2,7 +2,6 @@
 
 """Time updateable processes."""
 
-
 import math
 from pyglet import clock
 
