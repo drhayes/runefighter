@@ -7,12 +7,9 @@ import pyglet
 from pyglet.gl import *
 
 
+import constants
 import process
 import states
-
-
-WIDTH = 640
-HEIGHT = 480
 
 
 def load_image(filename):
@@ -26,7 +23,8 @@ def load_image(filename):
 # Kicks everything off.
 def main():
   # The window where all the drawing takes place.
-  window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
+  window = pyglet.window.Window(width=constants.SCREEN_WIDTH,
+    height=constants.SCREEN_HEIGHT)
   window.set_caption('Runefighter')
 
   # Set the resource load path.
@@ -41,7 +39,7 @@ def main():
 
   # Load fonts.
   pyglet.resource.add_font('m48.ttf')
-  main_font = pyglet.font.load('M48_RETROFUTURE', 32)
+  main_font = pyglet.font.load(constants.FONT_NAME, 32)
 
   # Load sprites.
   ship = pyglet.sprite.Sprite(ship_image, x=50, y=50)
@@ -49,7 +47,7 @@ def main():
   # Processes.
   title = process.TitleGraphic(title_image)
   title.start()
-  starfield = process.Starfield(starfield_image, HEIGHT)
+  starfield = process.Starfield(starfield_image)
   starfield.start()
 
   # Start state machine.

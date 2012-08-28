@@ -7,6 +7,9 @@ import math
 from pyglet import clock
 
 
+import constants
+
+
 # pixels / second
 TITLE_RATE = 20
 START_TITLE_Y = 180
@@ -47,17 +50,16 @@ class TitleGraphic(Process):
 
 class Starfield(Process):
   """A scrolling starfield in the background."""
-  def __init__(self, starfield_image, max_height):
+  def __init__(self, starfield_image):
     super(Starfield, self).__init__()
     self.starfield_image = starfield_image
-    self.max_height = max_height
     self.y = 0
 
   def update(self, dt):
     self.y -= int(math.ceil(STARFIELD_RATE * dt))
-    if self.y < -self.max_height:
-      self.y = 0 + (self.max_height + self.y)
+    if self.y < -constants.SCREEN_HEIGHT:
+      self.y = 0 + (constants.SCREEN_HEIGHT + self.y)
 
   def draw(self):
     self.starfield_image.blit(0, self.y)
-    self.starfield_image.blit(0, self.y + self.max_height)
+    self.starfield_image.blit(0, self.y + constants.SCREEN_HEIGHT)
