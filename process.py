@@ -34,9 +34,9 @@ class Process(object):
 
 class TitleGraphic(Process):
   """A title that slides into place."""
-  def __init__(self, title_image):
+  def __init__(self, res_man):
     super(TitleGraphic, self).__init__()
-    self.title_image = title_image
+    self.title_image = res_man.title
     self.y = START_TITLE_Y
 
   def update(self, dt):
@@ -49,9 +49,9 @@ class TitleGraphic(Process):
 
 class Starfield(Process):
   """A scrolling starfield in the background."""
-  def __init__(self, starfield_image):
+  def __init__(self, res_man):
     super(Starfield, self).__init__()
-    self.starfield_image = starfield_image
+    self.starfield_image = res_man.stars
     self.y = 0
 
   def update(self, dt):

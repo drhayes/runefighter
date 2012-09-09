@@ -77,10 +77,10 @@ class TitleScreen(State):
 
 class PlayerStatState(State):
   """State where player stats are displayed."""
-  def __init__(self, player, ship_image):
+  def __init__(self, player, res_man):
     super(PlayerStatState, self).__init__()
     self.player = player
-    self.ship_image = ship_image
+    self.ship_image = res_man.ship
 
   def on_draw(self):
     # Draw the number of lives at the bottom.
@@ -92,8 +92,8 @@ class PlayerStatState(State):
 
 class GetReady(PlayerStatState):
   """Show the text get ready and transition in a few seconds."""
-  def __init__(self, player, ship_image, get_ready, transition):
-    super(GetReady, self).__init__(player, ship_image)
+  def __init__(self, player, res_man, get_ready, transition):
+    super(GetReady, self).__init__(player, res_man)
     self.get_ready = get_ready
     self.transition = transition
 
@@ -109,8 +109,8 @@ class GetReady(PlayerStatState):
 
 class ShootingAtThings(PlayerStatState):
   """State of player controlling ship and shooting things."""
-  def __init__(self, player, ship_image, ship):
-    super(ShootingAtThings, self).__init__(player, ship_image)
+  def __init__(self, player, res_man, ship):
+    super(ShootingAtThings, self).__init__(player, res_man)
     self.ship = ship
 
   def on_draw(self):
