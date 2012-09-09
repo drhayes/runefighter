@@ -9,12 +9,6 @@ import pyglet
 import constants
 
 
-def create_label(text, x=constants.SCREEN_WIDTH / 2,
-    y=constants.SCREEN_HEIGHT / 2):
-  return pyglet.text.Label(text, font_name=constants.FONT_NAME,
-    anchor_x='center', x=x, y=y)
-
-
 class ResourceManager(object):
   """Single point for loading images and things.
 
@@ -46,4 +40,11 @@ class ResourceManager(object):
   def add_font(self, font_name, font_system_name, font_size=12):
     font = pyglet.font.load(font_system_name, font_size)
     self.__dict__[font_name] = font
+
+  def create_label(self, name, text, x=constants.SCREEN_WIDTH / 2,
+    y=constants.SCREEN_HEIGHT / 2):
+    label = pyglet.text.Label(text, font_name=constants.FONT_NAME,
+      anchor_x='center', x=x, y=y)
+    self.__dict__[name] = label
+    return label
 

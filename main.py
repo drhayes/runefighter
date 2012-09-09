@@ -44,9 +44,9 @@ def main():
   ship = pyglet.sprite.Sprite(res_man.ship, x=50, y=70)
 
   # Get some text.
-  press_space = resources.create_label(
-    'Press Space To Continue', x=constants.SCREEN_WIDTH / 2, y=120)
-  get_ready = resources.create_label('Get Ready')
+  res_man.create_label('press_space', 'Press Space To Continue',
+    x=constants.SCREEN_WIDTH / 2, y=120)
+  res_man.create_label('get_ready', 'Get Ready')
 
   # Processes.
   title = process.TitleGraphic(res_man)
@@ -59,9 +59,9 @@ def main():
 
   shooting_at_things = states.ShootingAtThings(player, res_man, ship)
   transition_to_shooting = state_manager.create_transition(shooting_at_things)
-  get_ready = states.GetReady(player, res_man, get_ready, transition_to_shooting)
+  get_ready = states.GetReady(player, res_man, transition_to_shooting)
   transition_to_ready = state_manager.create_transition(get_ready)
-  title_screen = states.TitleScreen(title, press_space, transition_to_ready)
+  title_screen = states.TitleScreen(title, res_man, transition_to_ready)
   transition_to_title_screen = state_manager.create_transition(title_screen)
 
   transition_to_title_screen()

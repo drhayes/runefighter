@@ -59,10 +59,10 @@ class State(object):
 
 class TitleScreen(State):
   """Show the title screen until player presses spacebar."""
-  def __init__(self, title, press_space, transition):
+  def __init__(self, title, res_man, transition):
     super(TitleScreen, self).__init__()
     self.title = title
-    self.press_space = press_space
+    self.press_space = res_man.press_space
     self.transition = transition
 
   def on_draw(self):
@@ -92,9 +92,9 @@ class PlayerStatState(State):
 
 class GetReady(PlayerStatState):
   """Show the text get ready and transition in a few seconds."""
-  def __init__(self, player, res_man, get_ready, transition):
+  def __init__(self, player, res_man, transition):
     super(GetReady, self).__init__(player, res_man)
-    self.get_ready = get_ready
+    self.get_ready = res_man.get_ready
     self.transition = transition
 
   def activate(self):
