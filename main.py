@@ -47,6 +47,11 @@ def main():
   res_man.create_label('press_space', 'Press Space To Continue',
     x=constants.SCREEN_WIDTH / 2, y=120)
   res_man.create_label('get_ready', 'Get Ready')
+  score_label = res_man.create_label('score', 'Score',
+    x=constants.SCORE_LABEL_X_POS,
+    y=constants.SCORE_LABEL_Y_POS)
+  score_label.anchor_x = 'left'
+  score_label.anchor_y = 'top'
 
   # Processes.
   title = process.TitleGraphic(res_man)

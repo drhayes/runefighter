@@ -80,14 +80,32 @@ class PlayerStatState(State):
   def __init__(self, player, res_man):
     super(PlayerStatState, self).__init__()
     self.player = player
+    self.res_man = res_man
     self.ship_image = res_man.ship
+    self.score_label = res_man.score
+    self.current_score = player.score
+    self.numeric_score_label = None
 
   def on_draw(self):
+    if self.need_to_update_numeric_score_label():
+      self.update_numeric_score()
+    self.score_label.draw()
+    self.numeric_score_label.draw()
     # Draw the number of lives at the bottom.
     for i in xrange(0, self.player.lives):
       x = (constants.LIVES_IMAGE_WIDTH + 10) + (i * (constants.LIVES_IMAGE_WIDTH + 8))
       self.ship_image.blit(
         x, 20, width=constants.LIVES_IMAGE_WIDTH, height=constants.LIVES_IMAGE_HEIGHT)
+
+  def need_to_update_numeric_score_label(self):
+    return self.current_score != self.player.score or self.numeric_score_label is None
+
+  def update_numeric_score(self):
+    self.numeric_score_label = self.res_man.create_label('numeric_score',
+      str(self.player.score),
+      x=constants.NUMERIC_SCORE_X_POS,
+      y=constants.NUMERIC_SCORE_Y_POS)
+    self.numeric_score_label.anchor_x = 'left'
 
 
 class GetReady(PlayerStatState):
