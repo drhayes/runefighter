@@ -101,6 +101,8 @@ class PlayerStatState(State):
     return self.current_score != self.player.score or self.numeric_score_label is None
 
   def update_numeric_score(self):
+    if self.numeric_score_label:
+      self.numeric_score_label.delete()
     self.numeric_score_label = self.res_man.create_label('numeric_score',
       str(self.player.score),
       x=constants.NUMERIC_SCORE_X_POS,
