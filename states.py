@@ -92,7 +92,7 @@ class PlayerStatState(State):
     self.score_label.draw()
     self.numeric_score_label.draw()
     # Draw the number of lives at the bottom.
-    for i in xrange(0, self.player.lives):
+    for i in xrange(0, self.player.lives - 1):
       x = (constants.LIVES_IMAGE_WIDTH + 10) + (i * (constants.LIVES_IMAGE_WIDTH + 8))
       self.ship_image.blit(
         x, 20, width=constants.LIVES_IMAGE_WIDTH, height=constants.LIVES_IMAGE_HEIGHT)
